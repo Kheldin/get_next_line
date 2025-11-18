@@ -1,38 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/18 14:36:36 by kacherch         ###   ########.fr       */
+/*   Created: 2025/11/18 14:13:34 by kacherch          #+#    #+#             */
+/*   Updated: 2025/11/18 14:25:48 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
 #include "get_next_line.h"
 
-char	*get_next_line(int fd)
+l_list	*ft_create_node(void *content)
 {
-	int		count;
-	char	res[BUFFER_SIZE];
+	l_list	*node;
 
-	count = 0;
-	while (read(fd, res, BUFFER_SIZE) > 0)
-		write(1, res, BUFFER_SIZE);
-	return (NULL);
-}
-
-int	main(void)
-{
-	int	fd = open("test.txt", O_RDONLY);
-	char *line;
-	
-	printf("buffer size = %d\n", BUFFER_SIZE);
-	get_next_line(fd);
-	return (0);
+	node->content = content;
+	node->next = NULL;
+	return (node);
 }

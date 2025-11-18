@@ -1,0 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/18 14:13:38 by kacherch          #+#    #+#             */
+/*   Updated: 2025/11/18 15:57:05 by kacherch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
+# include <stdlib.h>
+
+typedef struct l_list
+{
+	void			*content;
+	struct l_list	*next;
+}	t_list;
+
+char	*get_next_line(int fd);
+
+#endif
