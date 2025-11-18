@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/18 14:36:36 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/18 20:19:24 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,14 @@ int	main(void)
 	char *line;
 	
 	printf("buffer size = %d\n", BUFFER_SIZE);
-	get_next_line(fd);
+	//get_next_line(fd);
+	t_list *node = ft_lstnew("troisieme");
+	ft_lstaddback(&node, "deuxieme");
+	ft_lstaddback(&node, "premier");
+	while (node)
+	{
+		printf("%s\n", (char *)node->content);
+		node = node->next;
+	}
 	return (0);
 }
