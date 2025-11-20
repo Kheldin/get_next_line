@@ -26,6 +26,7 @@ typedef struct l_list
 
 char	*get_next_line(int fd);
 t_list	*ft_lstnew(void *content);
-void	ft_lstaddback(t_list *node, void *content);
+void	ft_lstaddback(t_list *head, void *content);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif

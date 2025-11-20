@@ -16,14 +16,47 @@
 #include <stdio.h>
 #include "get_next_line.h"
 
+int	new_line_found(char *buf)
+{
+	int	i;
+
+	while (buf[i])
+	{
+		if (buf[i] == '\n')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+void	buf_to_list(t_list *head, char *buf)
+{
+	size_t	i;
+
+	i = 0;
+	while (buf[i])
+	{
+		ft_lstaddback(head, &buf[i]);
+		i++;
+	}
+}
+
 char	*get_next_line(int fd)
 {
-	int			count;
 	static char	buf[BUFFER_SIZE];
+	t_list		*tmp;
+	char		*res;
+	t_list 		*head;
 
-	count = 0;
-	while (read(fd, buf, BUFFER_SIZE) > 0)
-		write(1, buf, BUFFER_SIZE);
+	head = ft_lstnew("head");
+	tmp = head;
+	read(fd, buf, BUFFER_SIZE - 1);
+	buf_to_list(tmp, buf);
+	buf[BUFFER_SIZE] = '\0';
+	while (tmp)
+	{
+		printf("%c\n", *(char *)tmp->content);
+		tmp = tmp->next;
+	}
 	return (NULL);
 }
 
@@ -33,7 +66,6 @@ int	main(void)
 	char *line;
 	
 	printf("buffer size = %d\n", BUFFER_SIZE);
-	//get_next_line(fd);
-
+	get_next_line(fd);
 	return (0);
 }

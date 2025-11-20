@@ -13,6 +13,16 @@
 #include "get_next_line.h"
 #include <limits.h>
 
+int	ft_strlen(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
 void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void			*ptr;
@@ -47,12 +57,36 @@ t_list	*ft_lstnew(void *content)
 	return (node);
 }
 
-void	ft_lstaddback(t_list *node, void *content)
+void	ft_lstaddback(t_list *head, void *content)
 {
 	t_list	*tmp;
 
-	tmp = node;
+	tmp = head;
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = ft_lstnew(content);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	char			*res;
+	unsigned int	i;
+	unsigned int	j;
+	size_t			total_len;
+
+	if (!s1 || !s2)
+		return (NULL);
+	total_len = ft_strlen(s1) + ft_strlen(s2);
+	res = ft_calloc(total_len + 1, sizeof(char));
+	if (!res)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s1[i])
+		res[j++] = s1[i++];
+	i = 0;
+	while (s2[i])
+		res[j++] = s2[i++];
+	res[j] = '\0';
+	return (res);
 }
