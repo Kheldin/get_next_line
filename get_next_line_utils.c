@@ -57,14 +57,18 @@ t_list	*ft_lstnew(void *content)
 	return (node);
 }
 
-void	ft_lstaddback(t_list *head, void *content)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list	*tmp;
-
-	tmp = head;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = ft_lstnew(content);
+	if (!new)
+		return ;
+	if (!(*lst))
+	{
+		*lst = new;
+		return ;
+	}
+	while ((*lst)->next)
+		*lst = (*lst)->next;
+	(*lst)->next = new;
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
