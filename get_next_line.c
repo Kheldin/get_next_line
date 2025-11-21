@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/21 11:58:16 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/21 13:07:31 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,30 +60,34 @@ char	*get_next_line(int fd)
 {
 	static char	buf[BUFFER_SIZE];
 	char		*tmpbuf;
-	int			count;
+	char		*tmpbuf2;
+	int			ret;
 
-	count = 1;
 	tmpbuf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	while (1)
 	{
-		read(fd, buf, BUFFER_SIZE);
-		if (new_line_found(buf))
-			return (get_line(buf));
-		free(tmpbuf);
-		tmpbuf = ft_calloc((BUFFER_SIZE * count) + 1, sizeof(char));
+		tmpbuf2 = ft_strjoin("", tmpbuf);
+		if (!tmpbuf2)
+			return (NULL);
+		tmpbuf = ft_strjoin(tmpbuf2, buf);
+		free(tmpbuf2);
 		if (!tmpbuf)
 			return (NULL);
-		ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+		ret = read(fd, buf, BUFFER_SIZE);
+		if (ret == -1)
+			return (NULL);
+		if (new_line_found(tmpbuf) || ret == 0)
+			return (get_line(tmpbuf));
 	}
-	return (NULL);
 }
 
 int	main(void)
 {
 	int	fd = open("test.txt", O_RDONLY);
 	char *line;
-	
+
 	//printf("buffer size = %d\n", BUFFER_SIZE);
+	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	return (0);
 }
