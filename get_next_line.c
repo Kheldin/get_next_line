@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/21 13:07:31 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/21 13:59:36 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ int	main(void)
 	//printf("buffer size = %d\n", BUFFER_SIZE);
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
+
 	return (0);
 }

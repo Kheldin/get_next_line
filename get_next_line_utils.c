@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:34 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/21 10:47:03 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:56:52 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,46 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	while (s2[i])
 		res[j++] = s2[i++];
 	res[j] = '\0';
+	return (res);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (1)
+	{
+		if ((unsigned char)s[i] == (unsigned char)c)
+			return ((char *)&s[i]);
+		if (s[i] == '\0')
+			return (0);
+		i++;
+	}
+}
+
+char	*ft_substr(char const *s, unsigned int start, size_t len)
+{
+	char	*res;
+	size_t	i;
+	size_t	s_len;
+
+	if (!s)
+		return (NULL);
+	s_len = ft_strlen(s);
+	if (s_len <= start)
+		return (ft_calloc(1, sizeof(char)));
+	if (s_len - start < len)
+		len = s_len - start;
+	i = 0;
+	res = ft_calloc(len + 1, sizeof(char));
+	if (!res)
+		return (NULL);
+	while (i < len && s[start + i])
+	{
+		res[i] = s[start + i];
+		i++;
+	}
+	res[i] = '\0';
 	return (res);
 }
