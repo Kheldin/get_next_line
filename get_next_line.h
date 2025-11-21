@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:38 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/18 20:19:29 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/21 11:33:43 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,8 @@
 # endif
 # include <stdlib.h>
 
-typedef struct l_list
-{
-	void			*content;
-	struct l_list	*next;
-}	t_list;
-
 char	*get_next_line(int fd);
-t_list	*ft_lstnew(void *content);
-void	ft_lstadd_back(t_list **lst, t_list *new);
 char	*ft_strjoin(char const *s1, char const *s2);
+void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif

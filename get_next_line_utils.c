@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:34 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/18 20:20:15 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/21 10:47:03 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,32 +43,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 		nb_bytes--;
 	}
 	return (ptr);
-}
-
-t_list	*ft_lstnew(void *content)
-{
-	t_list	*node;
-
-	node = ft_calloc(1, sizeof(t_list));
-	if (!node)
-		return (NULL);
-	node->content = content;
-	node->next = NULL;
-	return (node);
-}
-
-void	ft_lstadd_back(t_list **lst, t_list *new)
-{
-	if (!new)
-		return ;
-	if (!(*lst))
-	{
-		*lst = new;
-		return ;
-	}
-	while ((*lst)->next)
-		*lst = (*lst)->next;
-	(*lst)->next = new;
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)

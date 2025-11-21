@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/18 20:19:24 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/21 11:58:16 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,50 @@ int	new_line_found(char *buf)
 	return (0);
 }
 
+char	*get_line(char *buf)
+{
+	int		i;
+	int		count;
+	char	*res;
+
+	i = 0;
+	count = 0;
+	while (buf[i] && buf[i] != '\n')
+		i++;
+	if (buf[i] == '\n')
+		i++;
+	res = ft_calloc(i + 1, sizeof(char));
+	if (!res)
+		return (NULL);
+	count = i;
+	i = 0;
+	while (i < count)
+	{	
+		res[i] = buf[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
+
 char	*get_next_line(int fd)
 {
 	static char	buf[BUFFER_SIZE];
-	t_list		*tmp;
-	char		*res;
-	t_list 		*head;
-	int			ret;
+	char		*tmpbuf;
+	int			count;
 
-	head = ft_lstnew("head");
-	tmp = head;
-	ret = 1;
-	while (ret != 0 && !new_line_found(buf))
+	count = 1;
+	tmpbuf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	while (1)
 	{
-    ret = read(fd, buf, BUFFER_SIZE);
-    if (ret > 0)
-        ft_lstadd_back(&head, ft_lstnew(buf));
-	}
-	while (tmp)
-	{
-		printf("%c\n", *(char *)tmp->content);
-		tmp = tmp->next;
+		read(fd, buf, BUFFER_SIZE);
+		if (new_line_found(buf))
+			return (get_line(buf));
+		free(tmpbuf);
+		tmpbuf = ft_calloc((BUFFER_SIZE * count) + 1, sizeof(char));
+		if (!tmpbuf)
+			return (NULL);
+		ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	}
 	return (NULL);
 }
@@ -61,6 +84,6 @@ int	main(void)
 	char *line;
 	
 	//printf("buffer size = %d\n", BUFFER_SIZE);
-	get_next_line(fd);
+	printf("%s", get_next_line(fd));
 	return (0);
 }
