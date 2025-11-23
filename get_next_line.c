@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/21 13:59:36 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/23 19:04:31 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@
 #include <stdio.h>
 #include "get_next_line.h"
 
+char	*update_buffer(char *buf)
+{
+	char	*res;
+	int		i;
+
+	i = 0;
+	res = ft_calloc(ft_strlen(buf) * 2 + 1, sizeof(char));
+	if (!res)
+		return (NULL);
+	while (buf[i])
+	{
+		res[i] = buf[i];
+		i++;
+	}
+	free(buf);
+	return (res);
+}
+
+
 int	new_line_found(char *buf)
 {
 	int	i;
@@ -24,61 +43,44 @@ int	new_line_found(char *buf)
 	while (i < BUFFER_SIZE)
 	{
 		if (buf[i] == '\n')
-			return (1);
+			return (i);
 		i++;
 	}
 	return (0);
 }
 
-char	*get_line(char *buf)
+size_t	*get_line_index(char *buf)
 {
-	int		i;
-	int		count;
-	char	*res;
+	size_t	i;
 
 	i = 0;
-	count = 0;
 	while (buf[i] && buf[i] != '\n')
 		i++;
 	if (buf[i] == '\n')
 		i++;
-	res = ft_calloc(i + 1, sizeof(char));
-	if (!res)
-		return (NULL);
-	count = i;
-	i = 0;
-	while (i < count)
-	{	
-		res[i] = buf[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
+	return (i);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	buf[BUFFER_SIZE];
 	char		*tmpbuf;
-	char		*tmpbuf2;
 	int			ret;
 
-	tmpbuf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	while (1)
+	ret = read(fd, buf, BUFFER_SIZE);
+	tmpbuf = ft_strjoin("", buf);
+	if (!tmpbuf)
+		return (NULL);
+	while (ret != 0)
 	{
-		tmpbuf2 = ft_strjoin("", tmpbuf);
-		if (!tmpbuf2)
-			return (NULL);
-		tmpbuf = ft_strjoin(tmpbuf2, buf);
-		free(tmpbuf2);
-		if (!tmpbuf)
-			return (NULL);
+		if (new_line_found(tmpbuf));
+			return (ft_substr(tmpbuf, 0, get_line_index(tmpbuf)));
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
 			return (NULL);
-		if (new_line_found(tmpbuf) || ret == 0)
-			return (get_line(tmpbuf));
+		tmpbuf = ft_strjoin(tmpbuf, buf); 
 	}
+	return (tmpbuf);
 }
 
 int	main(void)
@@ -87,8 +89,8 @@ int	main(void)
 	char *line;
 
 	//printf("buffer size = %d\n", BUFFER_SIZE);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-
+	//printf("%s", get_next_line(fd));
+	line = get_next_line(fd);
+	free(line);
 	return (0);
 }
