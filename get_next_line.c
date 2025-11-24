@@ -34,13 +34,12 @@ char	*update_buffer(char *buf)
 	return (res);
 }
 
-
 int	new_line_found(char *buf)
 {
 	int	i;
 
 	i = 0;
-	while (i < BUFFER_SIZE)
+	while (buf[i])
 	{
 		if (buf[i] == '\n')
 			return (i);
@@ -49,7 +48,7 @@ int	new_line_found(char *buf)
 	return (0);
 }
 
-size_t	*get_line_index(char *buf)
+size_t	get_line_index(char *buf)
 {
 	size_t	i;
 
@@ -73,12 +72,12 @@ char	*get_next_line(int fd)
 		return (NULL);
 	while (ret != 0)
 	{
-		if (new_line_found(tmpbuf));
+		if (new_line_found(tmpbuf))
 			return (ft_substr(tmpbuf, 0, get_line_index(tmpbuf)));
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
 			return (NULL);
-		tmpbuf = ft_strjoin(tmpbuf, buf); 
+		tmpbuf = ft_strjoin(tmpbuf, buf);
 	}
 	return (tmpbuf);
 }
@@ -91,6 +90,39 @@ int	main(void)
 	//printf("buffer size = %d\n", BUFFER_SIZE);
 	//printf("%s", get_next_line(fd));
 	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+	line = get_next_line(fd);
+	printf("%s", line);
 	free(line);
 	return (0);
 }
