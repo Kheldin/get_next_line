@@ -28,52 +28,53 @@ size_t	get_line_index(char *buf)
 	return (i);
 }
 
-void	update_buffer(char **buf)
+void	update_buffer(char *buf)
 {
 	char	*res;
 	int		i;
 
 	i = 0;
-	res = ft_calloc(ft_strlen(*buf) + BUFFER_SIZE + 1, sizeof(char));
+	res = ft_calloc(ft_strlen(buf) + BUFFER_SIZE + 1, sizeof(char));
 	if (!res)
 		return ;
-	if (ft_strchr(*buf, 10) != -1)
-		res = ft_substr(*buf, get_line_index(*buf), ft_strlen(*buf) - get_line_index(*buf));
+	if (ft_strchr(buf, 10) != -1)
+		res = ft_substr(buf, get_line_index(buf), ft_strlen(buf) - get_line_index(buf));
 	else
 	{
-		while (*buf[i])
+		while (buf[i])
 		{
-			res[i] = *buf[i];
+			res[i] = buf[i];
 			i++;
 		}
 	}
-	free(*buf);
+	free(buf);
 }
 
 char	*get_next_line(int fd)
 {
 	char			buf[BUFFER_SIZE];
-	static char		**tmpbuf;
+	static char		*tmpbuf;
 	int				ret;
 
 	ret = read(fd, buf, BUFFER_SIZE);
-	*tmpbuf = ft_strjoin("", buf);
-	if (!(*tmpbuf))
+	tmpbuf = NULL;
+	tmpbuf = ft_strjoin("", buf);
+	if (!tmpbuf)
 		return (NULL);
 	while (ret != 0)
 	{
-		if (ft_strchr(*tmpbuf, 10))
+		if (ft_strchr(tmpbuf, 10))
 		{
 			update_buffer(tmpbuf);
-			return (ft_substr(*tmpbuf, 0, ft_strchr(*tmpbuf, 10)));
+			return (ft_substr(tmpbuf, 0, ft_strchr(tmpbuf, 10)));
 		}
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
 			return (NULL);
-		free(*tmpbuf);
-		*tmpbuf = ft_strjoin(*tmpbuf, buf);
+		free(tmpbuf);
+		tmpbuf = ft_strjoin(tmpbuf, buf);
 	}
-	return (*tmpbuf);
+	return (tmpbuf);
 }
 
 int	main(void)
