@@ -45,7 +45,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (ptr);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char			*res;
 	unsigned int	i;
@@ -69,7 +69,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (res);
 }
 
-char	*ft_strchr(const char *s, int c)
+int	ft_strchr(const char *s, int c)
 {
 	int	i;
 
@@ -77,9 +77,9 @@ char	*ft_strchr(const char *s, int c)
 	while (1)
 	{
 		if ((unsigned char)s[i] == (unsigned char)c)
-			return ((char *)&s[i]);
+			return (i);
 		if (s[i] == '\0')
-			return (0);
+			return (-1);
 		i++;
 	}
 }
