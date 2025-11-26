@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include "get_next_line.h"
 
-char	*update_buffer(char *buf)
+void	update_buffer(char *buf)
 {
 	char	*res;
 	int		i;
@@ -62,8 +62,8 @@ size_t	get_line_index(char *buf)
 
 char	*get_next_line(int fd)
 {
-	static char	buf[BUFFER_SIZE];
-	char		*tmpbuf;
+	char	buf[BUFFER_SIZE];
+	static char		*tmpbuf;
 	int			ret;
 
 	ret = read(fd, buf, BUFFER_SIZE);
@@ -73,7 +73,10 @@ char	*get_next_line(int fd)
 	while (ret != 0)
 	{
 		if (new_line_found(tmpbuf))
+		{
+			update_buffer(tmpbuf);
 			return (ft_substr(tmpbuf, 0, get_line_index(tmpbuf)));
+		}
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
 			return (NULL);
