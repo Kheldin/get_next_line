@@ -61,12 +61,19 @@ char	*get_next_line(int fd)
 	int				ret;
 	char			*line;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	ret = read(fd, buf, BUFFER_SIZE);
+	if (ret == -1 || ret == 0)
+	{
+		free(tmpbuf);
+		tmpbuf = NULL;
+		return (NULL);
+	}
 	if (!tmpbuf)
 		tmpbuf = ft_strjoin("", buf);
 	else
 		tmpbuf = ft_strjoin(tmpbuf, buf);
-	//printf("au depart : %s\n", tmpbuf);
 	if (!tmpbuf)
 		return (NULL);
 	while (ret != 0)
@@ -81,9 +88,7 @@ char	*get_next_line(int fd)
 		if (ret == -1)
 			return (NULL);
 		tmpbuf = update_buffer(tmpbuf);
-		//printf("Avant : %s\n", tmpbuf);
 		tmpbuf = ft_strjoin(tmpbuf, buf);
-		//printf("apres : %s\n", tmpbuf);
 	}
 	return (tmpbuf);
 }
@@ -94,13 +99,21 @@ int	main(void)
 	char *line;
 
 	line = get_next_line(fd);
-	printf("returned : %s\n", line);
+	printf("%s\n", line);
 	line = get_next_line(fd);
-	printf("returned : %s\n", line);
+	printf("%s\n", line);
 	line = get_next_line(fd);
-	printf("returned : %s\n", line);
-
-
-	free(line);
+	printf("%s\n", line);
+	line = get_next_line(fd);
+	printf("%s\n", line);
+	line = get_next_line(fd);
+	printf("%s\n", line);
+	line = get_next_line(fd);
+	printf("%s\n", line);
+	line = get_next_line(fd);
+	printf("%s\n", line);
+	line = get_next_line(fd);
+	printf("%s\n", line);
+	//free(line);
 	return (0);
 }
