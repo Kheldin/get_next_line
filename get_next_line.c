@@ -35,7 +35,7 @@ char	*update_buffer(char *buf)
 	i = 0;
 	if (ft_strchr(buf, 10) != -1)
 	{
-		printf("buf = %s\n", buf);
+		//printf("buf = %s\n", buf);
 		res = ft_substr(buf, get_line_index(buf), ft_strlen(buf) - get_line_index(buf));
 	}
 	else
@@ -50,7 +50,7 @@ char	*update_buffer(char *buf)
 		}
 	}
 	free(buf);
-	printf("Updated buffer = %s\n", res);
+	//printf("Updated buffer = %s\n", res);
 	return (res);
 }
 
@@ -62,9 +62,11 @@ char	*get_next_line(int fd)
 	char			*line;
 
 	ret = read(fd, buf, BUFFER_SIZE);
-	//tmpbuf = NULL; ca me parait useless
-	tmpbuf = ft_strjoin("", buf);
-	printf("au depart : %s\n", tmpbuf);
+	if (!tmpbuf)
+		tmpbuf = ft_strjoin("", buf);
+	else
+		tmpbuf = ft_strjoin(tmpbuf, buf);
+	//printf("au depart : %s\n", tmpbuf);
 	if (!tmpbuf)
 		return (NULL);
 	while (ret != 0)
@@ -91,13 +93,14 @@ int	main(void)
 	int	fd = open("test.txt", O_RDONLY);
 	char *line;
 
-	//printf("buffer size = %d\n", BUFFER_SIZE);
-	//printf("%s", get_next_line(fd));
 	line = get_next_line(fd);
 	printf("returned : %s\n", line);
-	printf("\n------------------------------------------------------------\n\n");
 	line = get_next_line(fd);
 	printf("returned : %s\n", line);
+	line = get_next_line(fd);
+	printf("returned : %s\n", line);
+
+
 	free(line);
 	return (0);
 }

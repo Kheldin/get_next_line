@@ -4,11 +4,3 @@ get next line is too easy
 
 - je read dans buf[BUFFER_SIZE].
 - Je sauvgarde dans tmpbuf.
-
-- Tant que read ne return pas 0
-    Si NL dans tmpbuf,
-        - j'affiche jusqua \n.
-        - je sauvgarde le contenue suivant dans un tmp2 qui fera max BUFFER_SIZE logiquement 
-        - je free tmpbuf, je ralloue tmpbuf[BUFFER_SIZE] = tmp2
-    Si pas de NL
-        - Copie tmpbuf dans tmp2 (calloc de strlen de tmpbuf puis copie, libft)
