@@ -33,15 +33,16 @@ char	*update_buffer(char *buf)
 	int		i;
 
 	i = 0;
-	res = ft_calloc(ft_strlen(buf) + BUFFER_SIZE + 1, sizeof(char));
-	if (!res)
-		return (NULL);
 	if (ft_strchr(buf, 10) != -1)
 	{
+		printf("buf = %s\n", buf);
 		res = ft_substr(buf, get_line_index(buf), ft_strlen(buf) - get_line_index(buf));
 	}
 	else
 	{
+		res = ft_calloc(ft_strlen(buf) + BUFFER_SIZE + 1, sizeof(char));
+		if (!res)
+			return (NULL);
 		while (buf[i])
 		{
 			res[i] = buf[i];
@@ -49,6 +50,7 @@ char	*update_buffer(char *buf)
 		}
 	}
 	free(buf);
+	printf("Updated buffer = %s\n", res);
 	return (res);
 }
 
@@ -57,11 +59,12 @@ char	*get_next_line(int fd)
 	char			buf[BUFFER_SIZE];
 	static char		*tmpbuf;
 	int				ret;
-	char	*line;
+	char			*line;
 
 	ret = read(fd, buf, BUFFER_SIZE);
-	tmpbuf = NULL;
+	//tmpbuf = NULL; ca me parait useless
 	tmpbuf = ft_strjoin("", buf);
+	printf("au depart : %s\n", tmpbuf);
 	if (!tmpbuf)
 		return (NULL);
 	while (ret != 0)
@@ -91,9 +94,10 @@ int	main(void)
 	//printf("buffer size = %d\n", BUFFER_SIZE);
 	//printf("%s", get_next_line(fd));
 	line = get_next_line(fd);
-	printf("%s\n", line);
+	printf("returned : %s\n", line);
+	printf("\n------------------------------------------------------------\n\n");
 	line = get_next_line(fd);
-	printf("%s\n", line);
+	printf("returned : %s\n", line);
 	free(line);
 	return (0);
 }

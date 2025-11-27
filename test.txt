@@ -1,5 +1,5 @@
 Je suis un fichier de test
-je mappelle kheldin
+Mon nom est kheldin
 get next line is too easy
 
 - je read dans buf[BUFFER_SIZE].
