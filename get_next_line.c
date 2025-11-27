@@ -27,6 +27,7 @@ size_t	get_line_index(char *buf)
 		i++;
 	return (i);
 }
+
 char	*update_buffer(char *buf)
 {
 	char	*res;
@@ -34,10 +35,8 @@ char	*update_buffer(char *buf)
 
 	i = 0;
 	if (ft_strchr(buf, 10) != -1)
-	{
-		//printf("buf = %s\n", buf);
-		res = ft_substr(buf, get_line_index(buf), ft_strlen(buf) - get_line_index(buf));
-	}
+		res = ft_substr(buf, get_line_index(buf),
+				ft_strlen(buf) - get_line_index(buf));
 	else
 	{
 		res = ft_calloc(ft_strlen(buf) + BUFFER_SIZE + 1, sizeof(char));
@@ -50,13 +49,12 @@ char	*update_buffer(char *buf)
 		}
 	}
 	free(buf);
-	//printf("Updated buffer = %s\n", res);
 	return (res);
 }
 
 char	*get_next_line(int fd)
 {
-	char			buf[BUFFER_SIZE+1];
+	char			buf[BUFFER_SIZE + 1];
 	static char		*tmpbuf;
 	char			*tmp;
 	int				ret;
@@ -73,7 +71,7 @@ char	*get_next_line(int fd)
 		if (ft_strchr(tmpbuf, 10) != -1)
 		{
 			line = ft_substr(tmpbuf, 0, ft_strchr(tmpbuf, 10) + 1);
-			tmpbuf = update_buffer(tmpbuf); 
+			tmpbuf = update_buffer(tmpbuf);
 			return (line);
 		}
 		ret = read(fd, buf, BUFFER_SIZE);

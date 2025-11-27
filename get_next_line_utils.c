@@ -27,7 +27,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 {
 	void			*ptr;
 	unsigned char	*castedptr;
-	size_t	nb_bytes;
+	size_t			nb_bytes;
 
 	if (nmemb != 0 && size > INT_MAX / nmemb)
 		return (NULL);
@@ -35,7 +35,7 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	ptr = malloc(nb_bytes);
 	if (!ptr)
 		return (0);
-	castedptr  = (unsigned char *)ptr;
+	castedptr = (unsigned char *)ptr;
 	while (nb_bytes)
 	{
 		*castedptr = 0;
