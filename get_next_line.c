@@ -56,64 +56,83 @@ char	*update_buffer(char *buf)
 
 char	*get_next_line(int fd)
 {
-	char			buf[BUFFER_SIZE];
+	char			buf[BUFFER_SIZE+1];
 	static char		*tmpbuf;
+	char			*tmp;
 	int				ret;
 	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	ret = read(fd, buf, BUFFER_SIZE);
-	if (ret == -1 || ret == 0)
-	{
-		free(tmpbuf);
-		tmpbuf = NULL;
-		return (NULL);
-	}
 	if (!tmpbuf)
-		tmpbuf = ft_strjoin("", buf);
-	else
-		tmpbuf = ft_strjoin(tmpbuf, buf);
+		tmpbuf = ft_calloc(1, sizeof(char));
 	if (!tmpbuf)
 		return (NULL);
-	while (ret != 0)
+	while (1)
 	{
 		if (ft_strchr(tmpbuf, 10) != -1)
 		{
-			line = ft_substr(tmpbuf, 0, ft_strchr(tmpbuf, 10));
+			line = ft_substr(tmpbuf, 0, ft_strchr(tmpbuf, 10) + 1);
 			tmpbuf = update_buffer(tmpbuf); 
 			return (line);
 		}
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
+		{
+			free(tmpbuf);
+			tmpbuf = NULL;
 			return (NULL);
-		tmpbuf = update_buffer(tmpbuf);
-		tmpbuf = ft_strjoin(tmpbuf, buf);
+		}
+		if (ret == 0)
+		{
+			if (tmpbuf && tmpbuf[0] != '\0')
+			{
+				line = tmpbuf;
+				tmpbuf = NULL;
+				return (line);
+			}
+			free(tmpbuf);
+			tmpbuf = NULL;
+			return (NULL);
+		}
+		buf[ret] = '\0';
+		tmp = ft_strjoin(tmpbuf, buf);
+		free(tmpbuf);
+		tmpbuf = tmp;
+		if (!tmpbuf)
+			return (NULL);
 	}
-	return (tmpbuf);
 }
-
+/*
 int	main(void)
 {
 	int	fd = open("test.txt", O_RDONLY);
 	char *line;
 
 	line = get_next_line(fd);
-	printf("%s\n", line);
+	printf("%s", line);
+	free(line);
 	line = get_next_line(fd);
-	printf("%s\n", line);
+	printf("%s", line);
+	free(line);
 	line = get_next_line(fd);
-	printf("%s\n", line);
+	printf("%s", line);
+	free(line);
 	line = get_next_line(fd);
-	printf("%s\n", line);
+	printf("%s", line);
+	free(line);
 	line = get_next_line(fd);
-	printf("%s\n", line);
+	printf("%s", line);
+	free(line);
 	line = get_next_line(fd);
-	printf("%s\n", line);
+	printf("%s", line);
+	free(line);
 	line = get_next_line(fd);
-	printf("%s\n", line);
+	printf("%s", line);
+	free(line);
 	line = get_next_line(fd);
-	printf("%s\n", line);
-	//free(line);
+	printf("%s", line);
+	free(line);
+	close(fd);
 	return (0);
-}
+}*/
