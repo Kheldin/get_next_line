@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/28 12:08:05 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/28 19:11:47 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,26 @@ char	*update_buffer(char *buf)
 	return (res);
 }
 
+char	*extract_line(char **buf)
+{
+	char	*line;
+	
+	line = ft_substr(*buf, 0, ft_strchr(*buf, 10) + 1);
+	if (!line)
+	{
+		free(*buf);
+		*buf = NULL;
+		return (NULL);
+	}
+	*buf = update_buffer(*buf);
+	if (!(*buf))
+	{
+		free(line);
+		return (NULL);
+	}
+	return (line);
+}
+
 char	*get_next_line(int fd)
 {
 	char			buf[BUFFER_SIZE + 1];
@@ -80,20 +100,7 @@ char	*get_next_line(int fd)
 	{
 		if (ft_strchr(tmpbuf, 10) != -1)
 		{
-			line = ft_substr(tmpbuf, 0, ft_strchr(tmpbuf, 10) + 1);
-			if (!line)
-			{
-				free(tmpbuf);
-				tmpbuf = NULL;
-				return (NULL);
-			}
-			tmpbuf = update_buffer(tmpbuf);
-			if (!tmpbuf)
-			{
-				free(line);
-				return (NULL);
-			}
-			return (line);
+			return (extract_line(&tmpbuf));
 		}
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret == -1)
