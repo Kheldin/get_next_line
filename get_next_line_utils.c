@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:34 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/21 14:56:52 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/28 12:07:31 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s1 || !s2)
 		return (NULL);
 	total_len = ft_strlen(s1) + ft_strlen(s2);
+	if (total_len == 0)
+		return (ft_calloc(1, sizeof(char)));
 	res = ft_calloc(total_len + 1, sizeof(char));
 	if (!res)
 		return (NULL);

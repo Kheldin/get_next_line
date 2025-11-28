@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/23 19:04:31 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/28 12:08:05 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,23 @@ char	*update_buffer(char *buf)
 
 	i = 0;
 	if (ft_strchr(buf, 10) != -1)
+	{
 		res = ft_substr(buf, get_line_index(buf),
 				ft_strlen(buf) - get_line_index(buf));
+		if (!res)
+		{
+			free(buf);
+			return (NULL);
+		}
+	}
 	else
 	{
 		res = ft_calloc(ft_strlen(buf) + BUFFER_SIZE + 1, sizeof(char));
 		if (!res)
+		{
+			free(buf);
 			return (NULL);
+		}
 		while (buf[i])
 		{
 			res[i] = buf[i];
@@ -71,7 +81,18 @@ char	*get_next_line(int fd)
 		if (ft_strchr(tmpbuf, 10) != -1)
 		{
 			line = ft_substr(tmpbuf, 0, ft_strchr(tmpbuf, 10) + 1);
+			if (!line)
+			{
+				free(tmpbuf);
+				tmpbuf = NULL;
+				return (NULL);
+			}
 			tmpbuf = update_buffer(tmpbuf);
+			if (!tmpbuf)
+			{
+				free(line);
+				return (NULL);
+			}
 			return (line);
 		}
 		ret = read(fd, buf, BUFFER_SIZE);
@@ -95,14 +116,18 @@ char	*get_next_line(int fd)
 		}
 		buf[ret] = '\0';
 		tmp = ft_strjoin(tmpbuf, buf);
+		if (!tmp)
+		{
+			free(tmpbuf);
+			tmpbuf = NULL;
+			return (NULL);
+		}
 		free(tmpbuf);
 		tmpbuf = tmp;
-		if (!tmpbuf)
-			return (NULL);
 	}
 }
-/*
-int	main(void)
+
+/* int	main(void)
 {
 	int	fd = open("test.txt", O_RDONLY);
 	char *line;
@@ -133,4 +158,4 @@ int	main(void)
 	free(line);
 	close(fd);
 	return (0);
-}*/
+} */
