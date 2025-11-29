@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/28 19:11:47 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/29 17:32:33 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*update_buffer(char *buf)
 char	*extract_line(char **buf)
 {
 	char	*line;
-	
+
 	line = ft_substr(*buf, 0, ft_strchr(*buf, 10) + 1);
 	if (!line)
 	{
@@ -99,17 +99,9 @@ char	*get_next_line(int fd)
 	while (1)
 	{
 		if (ft_strchr(tmpbuf, 10) != -1)
-		{
 			return (extract_line(&tmpbuf));
-		}
 		ret = read(fd, buf, BUFFER_SIZE);
-		if (ret == -1)
-		{
-			free(tmpbuf);
-			tmpbuf = NULL;
-			return (NULL);
-		}
-		if (ret == 0)
+		if (ret <= 0)
 		{
 			if (tmpbuf && tmpbuf[0] != '\0')
 			{
