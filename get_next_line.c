@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:42 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/29 17:32:33 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/11/29 19:03:53 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include "get_next_line.h"
 
-size_t	get_line_index(char *buf)
+static size_t	get_line_index(char *buf)
 {
 	size_t	i;
 
@@ -28,43 +28,29 @@ size_t	get_line_index(char *buf)
 	return (i);
 }
 
-char	*update_buffer(char *buf)
+static char	*create_remaining_buffer(char *buf, size_t line_len)
 {
 	char	*res;
-	int		i;
+	size_t	i;
 
-	i = 0;
 	if (ft_strchr(buf, 10) != -1)
+		return (ft_substr(buf, line_len, ft_strlen(buf) - line_len));
+	res = ft_calloc(ft_strlen(buf) + BUFFER_SIZE + 1, sizeof(char));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (buf[i])
 	{
-		res = ft_substr(buf, get_line_index(buf),
-				ft_strlen(buf) - get_line_index(buf));
-		if (!res)
-		{
-			free(buf);
-			return (NULL);
-		}
+		res[i] = buf[i];
+		i++;
 	}
-	else
-	{
-		res = ft_calloc(ft_strlen(buf) + BUFFER_SIZE + 1, sizeof(char));
-		if (!res)
-		{
-			free(buf);
-			return (NULL);
-		}
-		while (buf[i])
-		{
-			res[i] = buf[i];
-			i++;
-		}
-	}
-	free(buf);
 	return (res);
 }
 
-char	*extract_line(char **buf)
+static char	*extract_line(char **buf)
 {
 	char	*line;
+	char	*new_buf;
 
 	line = ft_substr(*buf, 0, ft_strchr(*buf, 10) + 1);
 	if (!line)
@@ -73,12 +59,30 @@ char	*extract_line(char **buf)
 		*buf = NULL;
 		return (NULL);
 	}
-	*buf = update_buffer(*buf);
-	if (!(*buf))
+	new_buf = create_remaining_buffer(*buf, get_line_index(*buf));
+	free(*buf);
+	if (!new_buf)
 	{
 		free(line);
+		*buf = NULL;
 		return (NULL);
 	}
+	*buf = new_buf;
+	return (line);
+}
+
+static char	*handle_read_end(char **tmpbuf, int ret)
+{
+	char	*line;
+
+	if (ret < 0 || !(*tmpbuf) || (*tmpbuf)[0] == '\0')
+	{
+		free(*tmpbuf);
+		*tmpbuf = NULL;
+		return (NULL);
+	}
+	line = *tmpbuf;
+	*tmpbuf = NULL;
 	return (line);
 }
 
@@ -88,7 +92,6 @@ char	*get_next_line(int fd)
 	static char		*tmpbuf;
 	char			*tmp;
 	int				ret;
-	char			*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -102,59 +105,12 @@ char	*get_next_line(int fd)
 			return (extract_line(&tmpbuf));
 		ret = read(fd, buf, BUFFER_SIZE);
 		if (ret <= 0)
-		{
-			if (tmpbuf && tmpbuf[0] != '\0')
-			{
-				line = tmpbuf;
-				tmpbuf = NULL;
-				return (line);
-			}
-			free(tmpbuf);
-			tmpbuf = NULL;
-			return (NULL);
-		}
+			return (handle_read_end(&tmpbuf, ret));
 		buf[ret] = '\0';
 		tmp = ft_strjoin(tmpbuf, buf);
-		if (!tmp)
-		{
-			free(tmpbuf);
-			tmpbuf = NULL;
-			return (NULL);
-		}
 		free(tmpbuf);
+		if (!tmp)
+			return (tmpbuf = NULL);
 		tmpbuf = tmp;
 	}
 }
-
-/* int	main(void)
-{
-	int	fd = open("test.txt", O_RDONLY);
-	char *line;
-
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	line = get_next_line(fd);
-	printf("%s", line);
-	free(line);
-	close(fd);
-	return (0);
-} */
