@@ -6,11 +6,11 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 17:53:09 by kacherch          #+#    #+#             */
-/*   Updated: 2025/12/02 17:53:12 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/12/02 20:45:35 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <limits.h>
 
 int	ft_strlen(const char *s)

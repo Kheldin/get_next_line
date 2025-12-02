@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/18 14:13:38 by kacherch          #+#    #+#             */
-/*   Updated: 2025/11/23 17:04:33 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/12/02 20:46:56 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #  define BUFFER_SIZE 1
 # endif
 # include <stdlib.h>
+# include <unistd.h>
 
 char	*get_next_line(int fd);
 void	*ft_calloc(size_t nmemb, size_t size);

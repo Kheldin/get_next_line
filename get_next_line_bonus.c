@@ -6,14 +6,10 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 17:52:56 by kacherch          #+#    #+#             */
-/*   Updated: 2025/12/02 18:07:28 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/12/02 20:47:30 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
 #include "get_next_line_bonus.h"
 
 static size_t	get_line_index(char *buf)
