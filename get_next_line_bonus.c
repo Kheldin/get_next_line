@@ -6,7 +6,7 @@
 /*   By: kacherch <kacherch@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 17:52:56 by kacherch          #+#    #+#             */
-/*   Updated: 2025/12/02 20:47:30 by kacherch         ###   ########.fr       */
+/*   Updated: 2025/12/04 12:21:28 by kacherch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,19 +110,3 @@ char	*get_next_line(int fd)
 		tmpbuf[fd] = tmp;
 	}
 }
-
-/* #include <fcntl.h>
-#include <unistd.h>
-int main (void)
-{
-    int fd = open("test.txt", O_RDONLY);
-    int fd2 = open("test2.txt", O_RDONLY);
-    
-    printf("%s", get_next_line(fd));
-    printf("%s", get_next_line(fd2));
-    printf("%s", get_next_line(fd2));
-    printf("%s", get_next_line(fd));
-    printf("%s", get_next_line(fd));
-    printf("%s", get_next_line(fd2));
-    return (0);
-} */
