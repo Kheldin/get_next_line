@@ -1,6 +1,0 @@
-Je suis un fichier de test
-Mon nom est kheldin
-get next line is too easy
-
-- je read dans buf[BUFFER_SIZE].
-- Je sauvgarde dans tmpbuf.
