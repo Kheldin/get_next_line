@@ -1,6 +1,6 @@
 # get_next_line
 
-> A C function that reads one line at a time from any file descriptor — built without the standard library, using only a static variable to maintain state between calls.
+> A C function that reads one line at a time from any file descriptor. Built without the standard library, using only a static variable to maintain state between calls.
 
 ---
 
@@ -91,13 +91,13 @@ get_next_line/
 
 The implementation relies on a **static buffer (leftover)** to persist unprocessed data between calls. Here is how a single call unfolds:
 
-1. **Check the leftover** — if a `\n` is already present in the data saved from the previous call, extract and return the line immediately without calling `read()` again.
+1. **Check the leftover** : if a `\n` is already present in the data saved from the previous call, extract and return the line immediately without calling `read()` again.
 
-2. **Read in chunks** — `read()` fills a temporary buffer of `BUFFER_SIZE` bytes. Each chunk is appended to the leftover via a custom `strjoin`. This continues until a `\n` is found or EOF is reached.
+2. **Read in chunks** : `read()` fills a temporary buffer of `BUFFER_SIZE` bytes. Each chunk is appended to the leftover via a custom `strjoin`. This continues until a `\n` is found or EOF is reached.
 
-3. **Extract the line** — once a newline is found (or EOF), the portion up to and including `\n` is returned as the line. The remainder is saved back into the static variable for the next call.
+3. **Extract the line** : once a newline is found (or EOF), the portion up to and including `\n` is returned as the line. The remainder is saved back into the static variable for the next call.
 
-4. **Cleanup on EOF** — when `read()` returns 0, any remaining content in the leftover is returned as the final line (without `\n`), then the static is freed and set to NULL.
+4. **Cleanup on EOF** : when `read()` returns 0, any remaining content in the leftover is returned as the final line (without `\n`), then the static is freed and set to NULL.
 
 This approach avoids reading the whole file upfront and works correctly regardless of `BUFFER_SIZE`, even with pathological values like `1` or `10000000`.
 
